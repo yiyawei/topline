@@ -21,6 +21,14 @@
             target=".page-component__scroll "
           >
           </el-backtop>
+          <el-row>
+  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
+  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
+  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+  <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
+</el-row>
       </el-main>
       <el-footer>
         <el-row>
