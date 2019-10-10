@@ -1,6 +1,6 @@
 <template>
   <div>
-    我是home
+    我是publish
   </div>
 </template>
 

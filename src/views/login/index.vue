@@ -1,32 +1,44 @@
 <template>
   <div class="loginwrap">
     <div class="login">
-      <el-form ref="form" :model="form" :rules="rules">
+      <el-form ref="anyword"
+               :model="myLogin"
+               :rules="rules">
         <div class="head">
-          <img src="./img/login_logo.png" alt />
+          <img src="./img/login_logo.png"
+               alt />
         </div>
         <el-form-item prop="mobile">
-          <el-input v-model="form.mobile" placeholder="请输入手机号"></el-input>
+          <el-input v-model="myLogin.mobile"
+                    placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item prop="code">
           <el-row :gutter="20">
             <el-col :span="15">
-              <el-input v-model="form.code" placeholder="验证码"></el-input>
+              <el-input v-model="myLogin.code"
+                        placeholder="验证码"></el-input>
             </el-col>
             <el-col :span="8">
-              <el-button @click="getcode" :disabled="!!timer">{{ timer ? `${codeTime}秒后获取` : '获取验证码'}}</el-button>
+              <el-button @click="getcode"
+                         :disabled="!!timer">
+                {{ timer ? `${codeTime}秒后获取` : '获取验证码'}}
+              </el-button>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item prop="read">
-          <el-checkbox class="checkbtn" v-model="form.read">
+          <el-checkbox class="checkBtn"
+                       v-model="myLogin.read">
             我已阅读并同意
             <a>用户协议</a>与
             <a>隐私条款</a>
           </el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="loginbtn" @click="login" :loading="loginloading">登录</el-button>
+          <el-button type="primary"
+                     class="loginbtn"
+                     @click="login"
+                     :loading="loginloading">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -37,7 +49,7 @@
 export default {
   data () {
     return {
-      form: {
+      myLogin: {
         mobile: '',
         code: '',
         read: false
@@ -63,7 +75,7 @@ export default {
   methods: {
     login () {
       // 验证整个表单
-      this.$refs['form'].validate(valid => {
+      this.$refs['anyword'].validate(valid => {
         if (valid) {
           // 如果验证通过,就调用异步请求方法
           this.sendAxios()
@@ -72,14 +84,17 @@ export default {
     },
     // 封装登录异步请求方法
     sendAxios () {
+      console.log(this)
       this.loginloading = true
       this.$axios({
         method: 'post',
         url: '/mp/v1_0/authorizations',
-        data: this.form
+        data: this.myLogin
       })
         .then(res => {
           // res 中有一个属性叫做 data, 在 data 中有两个属性后面我们会用上： token , refresh_token
+          let userInfo = res.data.data
+          window.localStorage.setItem('userInfo', userInfo)
           this.$message({
             message: '登陆成功',
             type: 'success'
@@ -100,7 +115,7 @@ export default {
       // 点击时,先验证手机号,
       // 发送请求,获取验证码,这里没有接口,先不做
       // 按钮变换文字 开启倒计时
-      this.$refs['form'].validateField('mobile', errMsg => {
+      this.$refs['anyword'].validateField('mobile', errMsg => {
         if (errMsg.trim.length > 0) {
           // 如果信息有东西,说明不通过验证,直接退出函数
 
@@ -123,6 +138,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+body,
+html {
+  height: 100%;
+}
 .loginwrap {
   display: flex;
   justify-content: center;
@@ -138,6 +157,12 @@ export default {
       margin-bottom: 20px;
       img {
         width: 150px;
+      }
+    }
+    .checkBtn {
+      a {
+        color: #3296fa;
+        text-decoration: underline;
       }
     }
     .loginbtn {
