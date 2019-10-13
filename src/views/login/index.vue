@@ -93,7 +93,7 @@ export default {
       })
         .then(res => {
           // res 中有一个属性叫做 data, 在 data 中有两个属性后面我们会用上： token , refresh_token
-          let userInfo = res.data.data
+          let userInfo = JSON.stringify(res)
           window.localStorage.setItem('userInfo', userInfo)
           this.$message({
             message: '登陆成功',
